@@ -1,0 +1,18 @@
+version: "3"
+services:
+
+  app:
+    image: nextid
+    ports:
+      - "9999:9999"
+    volumes:
+      - ".:/app"
+    networks:
+      - webnet
+    depends_on:
+      - "webnet"
+volumes:
+  db:
+    
+networks:
+  webnet:
