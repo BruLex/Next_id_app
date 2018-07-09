@@ -9,7 +9,7 @@ public class DB {
     private Connection connection;
     private Statement statement;
 
-    public static DB getInst() {
+    public static synchronized DB getInst() {
         if (inst == null) {
             inst = new DB();
         }
@@ -19,10 +19,9 @@ public class DB {
     private DB() {
 
         try  {
-            Class.forName("org.sqlite.JDBC");
+            DriverManager.registerDriver(new JDBC());
             connection = DriverManager.getConnection(CON_STR);
             statement = connection.createStatement();
-
             try (PreparedStatement statement = connection.prepareStatement(
                     "CREATE TABLE if not exists nextid (id INTEGER PRIMARY KEY NOT NULL, number INTEGER );")) {
                 statement.execute();
@@ -35,18 +34,14 @@ public class DB {
             e.printStackTrace();
             System.err.println("Cannot connect to DB");
             System.exit(-1);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
-    public String  getNext() {
+    public synchronized String  getNext() {
 
         try {
-
             statement.executeUpdate("update nextid set number = number + 1 where id = 1;");
             ResultSet resultSet = statement.executeQuery("select * from nextid");
-
             return resultSet.next() ? String.valueOf(resultSet.getInt(2)) : "error";
 
         } catch (SQLException e) {
@@ -56,5 +51,5 @@ public class DB {
         }
     }
 
-    public void close() throws SQLException { statement.close(); connection.close(); }
+    public synchronized void close() throws SQLException { statement.close(); connection.close(); }
 }

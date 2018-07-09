@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.Socket;
-import java.sql.SQLException;
 
 public class ServerThr extends Thread {
         private Socket s;
@@ -29,7 +28,7 @@ public class ServerThr extends Thread {
                 if ((line = in.readLine()) != null) {
                     switch (line) {
                         case "next":
-                            out.println(database.getNext());
+                            out.println(database.getNext() + "   hostname:"+this.s.getInetAddress().getHostAddress());
                             break;
                         default:
                             out.println("command not found, try " +
@@ -37,6 +36,7 @@ public class ServerThr extends Thread {
                             break;
                     }
                 }
+                DB.getInst().close();
                 s.close();
             }catch(Exception x) {
                 if (!x.getMessage().equals("Connection reset")) {
