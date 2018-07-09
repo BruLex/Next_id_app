@@ -14,43 +14,28 @@ public class ServerThr extends Thread {
         }
 
     @Override
-    public void interrupt() {
-        try {
-            DB.getInst().close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        super.interrupt();
-    }
-
-    @Override
         public void run() {
 
             try {
                 this.sin = s.getInputStream();
                 this.sout = s.getOutputStream();
 
-                System.out.println("new conect");
+                System.out.println("new connect");
                 PrintWriter out = new PrintWriter(sout,true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(sin));
 
-                String output, line;
+                String line;
 
-                while ((line = in.readLine()) != null) {
-
-
-                    database = DB.getInst();
-
+                if ((line = in.readLine()) != null) {
                     switch (line) {
                         case "next":
-                            output = String.valueOf(database.getNext());
+                            out.println(database.getNext());
                             break;
                         default:
-                            output = String.valueOf("command not found, try " +
+                            out.println("command not found, try " +
                                     "next - to get nextid");
                             break;
                     }
-                    out.println(output);
                 }
                 s.close();
             }catch(Exception x) {

@@ -22,6 +22,7 @@ public class DB {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(CON_STR);
             statement = connection.createStatement();
+
             try (PreparedStatement statement = connection.prepareStatement(
                     "CREATE TABLE if not exists nextid (id INTEGER PRIMARY KEY NOT NULL, number INTEGER );")) {
                 statement.execute();
@@ -41,14 +42,16 @@ public class DB {
 
     public String  getNext() {
 
-
         try {
 
             statement.executeUpdate("update nextid set number = number + 1 where id = 1;");
             ResultSet resultSet = statement.executeQuery("select * from nextid");
+
             return resultSet.next() ? String.valueOf(resultSet.getInt(2)) : "error";
+
         } catch (SQLException e) {
             e.printStackTrace();
+
             return e.getMessage();
         }
     }
