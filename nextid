@@ -1,0 +1,43 @@
+#!/bin/bash
+
+setup() {
+	mkdir ./data -m 777
+	touch ./data/database.db
+	chmod 777 ./data/database.db
+	sudo docker build -t nextid .
+	sudo docker swarm init && /
+	sudo docker stack deploy -c docker-compose.yml nextid && /
+	echo && /
+	echo && /
+	echo && /
+	echo && /
+	echo && /
+	echo "OK, done."  && /
+	echo "To take nextid, do:" && /
+	echo "	 nc localhost 9999 <<< nextid"
+}
+
+close() {
+	sudo docker stack rm nextid && sudo docker swarm leave -f
+}
+
+help_info() {
+echo "Usage: ./ COMMAND"
+echo "Options:"
+echo "	-setup	build and start nextid_app"
+echo "	-close	close nextid_app"
+}
+
+if [ "$1" != "" ]; then
+	case $1 in
+		-setup ) setup
+		exit
+		;;
+		-close ) close
+		exit
+		;;
+		* ) 			help_info
+		exit 1
+	esac
+fi
+

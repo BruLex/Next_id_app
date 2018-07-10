@@ -6,17 +6,6 @@ public class Server {
 
     public static void main(String[] ar) {
         int port = 9999;
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-
-            try {
-                DB.getInst().close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Connection to DB closed, quiting server");
-        }));
-
         try (ServerSocket ss = new ServerSocket(port)){
 
             while(true) {

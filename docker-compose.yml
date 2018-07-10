@@ -3,16 +3,15 @@ services:
 
   app:
     image: nextid
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: on-failure
+
     ports:
       - "9999:9999"
     volumes:
-      - ".:/app"
-    networks:
-      - webnet
-    depends_on:
-      - "webnet"
+      - "./data:/tmp/data"
 volumes:
-  db:
-    
-networks:
-  webnet:
+    db:
+

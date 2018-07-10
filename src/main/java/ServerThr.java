@@ -25,7 +25,6 @@ public class ServerThr extends Thread {
                 BufferedReader in = new BufferedReader(new InputStreamReader(sin));
 
                 String line;
-
                 if ((line = in.readLine()) != null) {
                     switch (line) {
                         case "next":
