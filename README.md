@@ -1,33 +1,17 @@
-# nextid_app
-Nextid_app
 
-## Copy project files
-- Clone repository:
-`$ git clone https://github.com/BruLex/test_vagrant/`
+# Next id application
+This application for testing Server-Client socket.
+> Prehistory: 
+> User need to get unique ID at any time when enter 'next_id' or simple 'next'.
 
-FOR VAGRANT USE:
-## Preparations, installing VirtualBox and Vagrant with plugin
-- Navigate to project's folder, and do next:
-- To install, do:
- `$ sudo ./setup.sh`
-## Run
-- Navigate to project's folder, and do next:
-- Run `$ vagrant up && vagrant ssh`
-## Get a result
-- To get next_id: `$ nextid`
-## Exit 
-- To exit: `$ exit`
-
-FOR DOCKER USE:
-## Preparations, installing Docker
-- To run with Docker
-  - [docker](https://docs.docker.com/install/) - version 18.03 at the moment of writing
-## Installing nextid_app
-- To install, do:
- `$ sudo ./nextid -setup`
-- To uninstall, do:
- `$ sudo ./nextid -close`
-## Get a result
-- To get next_id: `$ nc localhost 9999 <<< next`
-
-
+# Project consist of several parts:
+- next-id-client (client console application via Java and C++)
+- next-id-client (client GUI application via Android)
+- next-id-server (server application via Java and C++)
+# You can also:
+  - Run server application via Java with Docker by moving the contents from  'Docker' folder into 'Server via JAVA' folder and start script 
+    - To start server ```$ ./next_id.sh -setup```
+    - To stop server ```$ ./next_id.sh -close```
+  - Run server application via Java with Vagrant by moving the contents from  'Vagrant' folder into 'Server via JAVA' folder and start script setup.sh```$ ./setup.sh``` which instal Vagrant and some plugin for them 
+    - To start server ```$ vagrant up```
+    - To stop server ```$ vagrant halt```
