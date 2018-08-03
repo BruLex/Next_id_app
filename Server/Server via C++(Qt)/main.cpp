@@ -16,7 +16,6 @@ private:
 
 public:
     MyTcpServer() {
-
         this->database.setDatabaseName(":memory:");
         this->database.open();
         this->database.exec("CREATE TABLE if not exists nextid (id INTEGER PRIMARY KEY NOT NULL, number INTEGER );");
@@ -33,8 +32,16 @@ public:
         }
     }
 
-public slots:
+    ~MyTcpServer() {
+        try {
+            this->database.close();
+            mTcpServer->close();
+            mTcpSocket->close();
+        } catch (...) {
+        }
+    }
 
+public slots:
     void slotNewConnection() {
         mTcpSocket = mTcpServer->nextPendingConnection();
         qDebug() << "new connection";
@@ -59,7 +66,6 @@ public slots:
                 qDebug() << (mTcpSocket->flush() ? "success transfer" : "transfer error");
 
             } else {
-
             }
         }
     }
